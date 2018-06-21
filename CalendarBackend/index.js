@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 app.get('/', (req, res, next) => res.send('got to the index'))
 
-const db = require('./models')
+const { db } = require('./models')
 db.sync()
     .then(() => {
         console.log('tables created in db')

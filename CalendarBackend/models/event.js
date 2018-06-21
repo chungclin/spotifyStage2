@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = (require('./_db'))
 
-const events = db.define('event', {
+const Event = db.define('event', {
     name: {
         type: Sequelize.STRING,
         allowNull: false, 
@@ -11,3 +11,5 @@ const events = db.define('event', {
         allowNull: false
     }
 })
+
+module.exports = Event

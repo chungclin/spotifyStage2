@@ -1,8 +1,12 @@
 const db = require('./_db')
+ 
 
-const Events = require('./events')
-const Days = require('./days')
-const Months = require('./months')
+const Event = require('./event')
+const Day = require('./day')
+const Month = require('./month')
 
 
-module.exports = db
+Day.hasMany(Event)
+Month.hasMany(Day)
+
+module.exports = {db, Day, Month, Event}
