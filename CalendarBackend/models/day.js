@@ -2,13 +2,13 @@ const Sequelize = require('sequelize')
 const db = (require('./_db'))
 
 const Day = db.define('day', {
-    dayOfWeek: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     dayOfMonth: {
         type: Sequelize.INTEGER,
         allowNull: false, 
+    },
+    dayOfWeek: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     monthAndDay: {
         type: Sequelize.VIRTUAL,
