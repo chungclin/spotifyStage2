@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchMonths } from '../store'
+import { fetchMonthsThunk } from '../store'
 
 class NavBar extends React.Component {
     constructor(props){
@@ -26,7 +26,7 @@ class NavBar extends React.Component {
                     return (
                         <div key={month.id}>
                             <li>
-                            <Link to={`/calendar/${month.id}`}>{month.month}</Link>
+                            <Link to={`/months/${month.id}`}>{month.month}</Link>
                             </li>
                         </div>
                     )
@@ -52,7 +52,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
     return {
         fetchMonthsFromServer: function() {
-            return dispatch(fetchMonths())
+            return dispatch(fetchMonthsThunk())
         }
     }
 }
