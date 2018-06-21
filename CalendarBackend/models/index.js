@@ -6,7 +6,7 @@ const Day = require('./day')
 const Month = require('./month')
 
 
-Day.hasMany(Event, {as: 'Events'})
+Day.hasMany(Event)
 Month.hasMany(Day)
 Event.belongsTo(Day)
 Day.belongsTo(Month)

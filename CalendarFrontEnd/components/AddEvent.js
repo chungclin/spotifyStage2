@@ -26,15 +26,14 @@ export default class AddEvent extends Component {
             name: evt.target.name.value,
             description: evt.target.description.value,
             startTime: evt.target.startTime.value,
-            endTime: evt.target.endTime.value
+            endTime: evt.target.endTime.value,
+            dayId: this.props.dayId
         }
-        this.props.addEvent
         this.props.addEvent(this.state);
         this.setState({startTime: '', endTime: '', description: '', name: ''});
     }
 
     render() {
-        console.log(this.props)
         return (
             <div>
             <form onSubmit={this.handleSubmit}>
