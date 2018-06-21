@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { postEventThunk } from '../store'
 
 
 export default class AddEvent extends Component {
@@ -22,14 +23,21 @@ export default class AddEvent extends Component {
 
     handleSubmit(evt) {
         evt.preventDefault()
+        // const newEvent = {
+        //     name: evt.target.name.value,
+        //     description: evt.target.description.value,
+        //     startTime: evt.target.startTime.value,
+        //     endTime: evt.target.endTime.value,
+        //     dayId: this.props.dayId
+        // }
         const newEvent = {
-            name: evt.target.name.value,
-            description: evt.target.description.value,
-            startTime: evt.target.startTime.value,
-            endTime: evt.target.endTime.value,
+            name: this.state.name,
+            description: this.state.description,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
             dayId: this.props.dayId
         }
-        this.props.addEvent(this.state);
+        postEventThunk(newEvent);
         this.setState({startTime: '', endTime: '', description: '', name: ''});
     }
 

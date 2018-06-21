@@ -49,27 +49,26 @@ class Calendar extends React.Component {
             <div style={container}>
             {
                 sorted.map(day => {
-                    console.log(day)
                     return (
                         <div style={calendarDay} key={day.id} dayId={day.id} onClick={this.toggleViewEvent}>
                         {day.monthAndDay}
                         <br />
                         {day.dayOfWeek}
                         <br />
-                        <Link to={`/months/${day.dayAndMonth.slice(1)}/day/${day.id}/addevent`}><AddEvent /></Link>
                         <button onClick={this.toggleViewEvent.bind(this)}>Add an Event</button>
                         </div>
                     )
+                    {!this.state.isHidden && <AddEvent />}
                 })          
             }
             </div>
-            
             </div>
         )
     }
 
 }
 
+// <Link to={`/months/${day.dayAndMonth.slice(1)}/day/${day.id}/addevent`}><AddEvent /></Link>
 
 
 //Container
