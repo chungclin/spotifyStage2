@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Modal from 'react-modal';
 import axios from 'axios'
-import { postEventThunk, fetchDayEventsThunk, putEventThunk } from '../store'
+import Modal from 'react-modal'
+import { postEventThunk, fetchDayEventsThunk, putEventThunk, deleteEventThunk } from '../store'
+import ModalUpdateDelete from './ModalUpdateEvent';
 
 const calendarDay = {
     display: "flex",
@@ -24,11 +25,10 @@ class SingleDay extends React.Component {
             startTime: '',
             endTime: ''
         }
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.openAddModal = this.openAddModal.bind(this);
+        this.closeAddModal = this.closeAddModal.bind(this);
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleUpdate = this.handleUpdate.bind(this)
     }
 
         componentDidMount(){
@@ -41,11 +41,11 @@ class SingleDay extends React.Component {
             this.setState({[evt.target.name]: evt.target.value})
         }
 
-        openModal() {
+        openAddModal() {
             this.setState({modalIsOpen: true});
         }
 
-        closeModal() {
+        closeAddModal() {
             this.setState({modalIsOpen: false});
         }
 
@@ -59,39 +59,25 @@ class SingleDay extends React.Component {
                 endTime: this.state.endTime,
                 dayId: this.props.dayId
             }
+            console.log('new event', newEvent)
             this.props.postEventToServer(newEvent, this.props.month, this.props.dayId)
             this.setState({modalIsOpen: false});
         }
 
-        handleUpdate(evt) {
-            evt.preventDefault()
-            console.log('WWWW', this.props, this.state.events)
-            const updateEvent = {
-                name: this.state.name,
-                description: this.state.description,
-                startTime: this.state.startTime,
-                endTime: this.state.endTime,
-                dayId: this.props.dayId
-            }
-            this.props.putEventToServer(updateEvent, this.props.month, this.props.dayId, this.state.events.id)
-            this.setState({modalIsOpen: false});
-        }
-
-
     render(){
         let { dayId, monthAndDay, dayOfWeek } = this.props
-    return (
-        <div dayId={dayId} style={calendarDay}>
-            {monthAndDay}
-            <br />
-            {dayOfWeek}
-            <br />
-            {
+        return (
+            <div dayId={dayId} style={calendarDay}>
+                {monthAndDay}
+                <br />
+                {dayOfWeek}
+                <br />
+                {
                 this.state.events.map(event => {
                     return (
+                        <div key={event.id}>
                         <div>
-                        <div>
-                        Name: {event.name}
+                        Name: <Link to={`/months/${this.props.month}/day/${dayId}/event/${event.id}`}>{event.name}</Link>
                         <br />
                         Description: {event.description}
                         <br />
@@ -99,55 +85,24 @@ class SingleDay extends React.Component {
                         <br />
                         End Time: {event.endTime}
                         </div>
-                        <div eventId={event.id}>
-            <button onClick={this.openModal}>Update Event</button>
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.closeAndSaveModal}
-                    onRequestClose={this.closeModal}
-                    >
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Update Event</h2>
-                    <button onClick={this.closeModal}>close</button>
-                    <form onSubmit={this.handleUpdate}>
-                        <fieldset>
-                            <legend>Update this Event</legend>
-                                <input
-                                className="form-control"
-                                placeholder="Event Name"
-                                onChange={this.handleChange}
-                                name="name"
-                                type="text"
-                                />
-                                <input
-                                className="form-control"
-                                name="description"
-                                placeholder="Event Description"
-                                type="text"
-                                onChange={this.handleChange}
-                                />
-                                    <label for="start-time">Start Time</label>
-                                    <input type="time" id="start-time" name="startTime" 
-                                        onChange={this.handleChange}
-                                             required />
-                                    <label for="start-time">End Time</label>
-                                    <input type="time" id="end-time" name="endTime"
-                                        onChange={this.handleChange}
-                                             required />
-                                </fieldset>
-                                <button type="submit" value="submit">Submit Event</button>
-                                </form>
-                            </Modal>
-                            </div>
+                        <div>
+                        <ModalUpdateDelete putEvent={this.props.putEventToServer} 
+                            month={this.props.month} 
+                            eventId={event.id} 
+                            dayId={this.props.dayId}
+                            deleteEvent={this.props.deleteEventToServer}
+                            />
+                        </div>
                         </div>
                     )
                 })
             }
             <div>
-            <button onClick={this.openModal}>Add Event</button>
+            <button onClick={this.openAddModal}>Add Event</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.closeAndSaveModal}
-                    onRequestClose={this.closeModal}
+                    onRequestClose={this.closeAddModal}
                     >
                     <h2 ref={subtitle => this.subtitle = subtitle}>Add Event</h2>
                     <button onClick={this.closeModal}>close</button>
@@ -168,11 +123,11 @@ class SingleDay extends React.Component {
                                 type="text"
                                 onChange={this.handleChange}
                                 />
-                                    <label for="start-time">Start Time</label>
+                                    <label htmlFor="start-time">Start Time</label>
                                     <input type="time" id="start-time" name="startTime" 
                                         onChange={this.handleChange}
                                              required />
-                                    <label for="start-time">End Time</label>
+                                    <label htmlFor="start-time">End Time</label>
                                     <input type="time" id="end-time" name="endTime"
                                         onChange={this.handleChange}
                                              required />
@@ -183,8 +138,8 @@ class SingleDay extends React.Component {
                             </div>
                             </div>
         
-    )
-}
+                    )
+            }
 }
 
 const mapState = state => {
@@ -203,6 +158,9 @@ const mapDispatch = dispatch => {
         },
         putEventToServer: function(event, monthId, dayId, eventId) {
             return dispatch(putEventThunk(event, monthId, dayId, eventId))
+        },
+        deleteEventToServer: function(monthId, dayId, eventId) {
+            return dispatch(deleteEventThunk(monthId, dayId, eventId))
         }
     }
 }

@@ -19,11 +19,12 @@ router.get('/:monthid', (req, res, next) => {
 //get events for that day
 router.get('/:monthid/day/:dayid/events', (req, res, next) => {
     let dayId = +req.params.dayid
-    console.log('this is the id', typeof(dayId))
     return Event.findAll({
         where: {
             dayId: Number(dayId)
         }
+    }, {
+        include: [ true ]
     })
     .then(foundEvents => res.json(foundEvents))
     .catch(next)
@@ -66,8 +67,8 @@ router.put('/:monthid/day/:dayid/events/:eventid', (req, res, next) => {
 //delete event from day of month
 router.delete('/:monthid/day/:dayid/events/:eventid', (req, res, next) => {
     const dayid = req.params.dayid;
-    const eventId = req.parems.eventId
-	Event.findById(+eventId)
+    const eventId = +req.params.eventid
+	Event.findById(eventId)
 	.then(foundEvent => foundEvent.destroy())
 	.then(console.log('deleted successfully'))
 	.catch(next);

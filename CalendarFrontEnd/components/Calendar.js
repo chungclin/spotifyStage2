@@ -12,6 +12,21 @@ const container = {
     "flexWrap": "wrap"
 }
 
+const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+]
+
 
 
 class Calendar extends React.Component {
@@ -26,12 +41,14 @@ class Calendar extends React.Component {
     }
 
     render () {
+        console.log(this.props.match.params.monthid-1, 'monthid')
         const { month } = this.props
         const sortedMonth = month.sort((a, b) => {
             return (a.dayOfMonth - b.dayOfMonth)
         })
         return (
             <div>
+            <b>{months[Number(this.props.match.params.monthid) - 1]}</b>
             <div style={container}>
             {
                 sortedMonth.map(day => {

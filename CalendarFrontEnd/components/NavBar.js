@@ -2,14 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchMonthsThunk } from '../store'
+import { fetchMonthsThunk, fetchMonthThunk } from '../store'
 
 class NavBar extends React.Component {
     constructor(props){
         super(props)
-        // this.state = {
-        //     months: []
-        // }
+        this.state = {
+            months: [],
+            selectedMonth: {}
+        }
     }
 
     componentDidMount() {
@@ -45,7 +46,8 @@ class NavBar extends React.Component {
 //Container
 const mapState = state => {
     return {
-        months: state.months
+        months: state.months,
+        month: state.selectedMonth
     }
 }
 
@@ -53,6 +55,9 @@ const mapDispatch = dispatch => {
     return {
         fetchMonthsFromServer: function() {
             return dispatch(fetchMonthsThunk())
+        },
+        fetchMonthsFromServer: function() {
+            return dispatch(fetchMonthThunk)
         }
     }
 }

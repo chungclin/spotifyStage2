@@ -107,11 +107,10 @@ export function putEventThunk(event, monthId, dayId, eventId) {
     return function(dispatch) {
         return axios.put(`/api/months/${monthId}/day/${dayId}/events/${eventId}`, event)
         .then(res => res.data)
-        .then(eventAdded => {
-            dispatch(updateEvent(eventUpdated))
+        .then(eventPosted => {
+            dispatch(updateEvent(eventPosted))
             history.push(`/calendar/${monthId}`);
         })
-
     }
 }
 
@@ -121,9 +120,21 @@ export function postEventThunk(event, monthId, dayId) {
         .then(res => res.data)
         .then(eventAdded => {
             dispatch(addEvent(eventAdded))
+            dispatch(getMonthThunk(monthId));
             history.push(`/calendar/${monthId}`);
         })
 
+    }
+}
+
+export function deleteEventThunk(monthId, dayId, eventId) {
+    return function(dispatch) {
+        return axios.delete(`/api/months/${monthId}/day/${dayId}/events/${eventId}`)
+        .then(res => res.data)
+        .then(() => {
+        dispatch(getMonthThunk(monthId));
+        })
+        .catch(err => console.error(err));
     }
 }
 
