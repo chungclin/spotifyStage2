@@ -5,7 +5,6 @@ const { Day, Month, Event } = require('../models')
 // /api/months/
 //get single month
 router.get('/:monthid', (req, res, next) => {
-    console.log(req.params.monthid)
     Day.findAll({
         where: {
             monthId: Number(req.params.monthid)
@@ -19,10 +18,11 @@ router.get('/:monthid', (req, res, next) => {
 
 //get events for that day
 router.get('/:monthid/day/:dayid/events', (req, res, next) => {
-    let dayId = req.params.dayid
-    Event.findAll({
+    let dayId = +req.params.dayid
+    console.log('this is the id', typeof(dayId))
+    return Event.findAll({
         where: {
-            dayId
+            dayId: Number(dayId)
         }
     })
     .then(foundEvents => res.json(foundEvents))
@@ -44,7 +44,7 @@ router.post('/:monthid/day/:dayid/events', (req, res, next) => {
 
 //put/update an event
 router.put('/:monthid/day/:dayid/events/:eventid', (req, res, next) => {
-    let eventid = req.params.eventid
+    let eventid = +req.params.eventid
     let { name, description, startTime, endTime } = req.body
     Event.findOne({
         where: {

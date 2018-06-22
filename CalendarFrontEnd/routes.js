@@ -20,6 +20,7 @@ class Routes extends Component {
                 <Route exact path="/months/:monthid" component={Calendar} />
                 <Route exact path="/months/:monthid/day/:dayid/addevent" component={Calendar} />
                 <Route exact path="/months/:monthid/day/:dayid" component={Calendar} />
+                <Route exact path="/:monthid/day/:dayid/events/:eventid" component={Calendar} />
             </Switch>
             </div>
         )

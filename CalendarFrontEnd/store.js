@@ -8,14 +8,14 @@ const initialState = {
     months: [],
     month: [],
     selectedDay: {},
-    events: []
+    eventsForDay: []
 }
 
 //Action Types
 const GET_ALL_MONTHS = 'GET_ALL_MONTHS'
 const GET_SINGLE_MONTH = 'GET_SINGLE_MONTH'
 
-const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
+const GET_MONTH_EVENTS = 'GET_MONTH_EVENTS'
 const GET_SINGLE_EVENT = 'GET_SINGLE_EVENT'
 
 const POST_EVENT = 'POST_EVENT'
@@ -40,10 +40,10 @@ export function getMonth(month) {
     return action
 }
 
-export function getEvents(events) {
+export function getMonthEvents(eventsForDay) {
     const action = {
-        type: GET_ALL_EVENTS,
-        events
+        type: GET_MONTH_EVENTS,
+        eventsForDay
     }
     return action
 }
@@ -79,7 +79,6 @@ export function fetchMonthsThunk() {
 }
 
 export function fetchMonthThunk(id) {
-    console.log('id', id)
     return function(dispatch){
         return axios.get(`/api/months/${id}`)
         .then(res => res.data)
@@ -91,17 +90,31 @@ export function fetchMonthThunk(id) {
     }
 }
 
-export function fetchEventsThunk(monthId, dayId) {
+export function fetchDayEventsThunk(monthId, dayId) {
     return function(dispatch){
         return axios.get(`/api/months/${monthId}/day/${dayId}/events`)
         .then(res => res.data)
+        .then(data => console.log('data', data))
         .then(events => {
-            const action = getEvents(events)
+            const action = getMonthEvents(events)
             dispatch(action)
         })
         .catch(err => console.error(err));
     }
 }
+
+export function putEventThunk(event, monthId, dayId, eventId) {
+    return function(dispatch) {
+        return axios.put(`/api/months/${monthId}/day/${dayId}/events/${eventId}`, event)
+        .then(res => res.data)
+        .then(eventAdded => {
+            dispatch(updateEvent(eventUpdated))
+            history.push(`/calendar/${monthId}`);
+        })
+
+    }
+}
+
 export function postEventThunk(event, monthId, dayId) {
     return function(dispatch) {
         return axios.post(`/api/months/${monthId}/day/${dayId}/events`, event)
@@ -121,8 +134,8 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, { months: action.months })
         case GET_SINGLE_MONTH:
             return Object.assign({}, state, { month: action.month })
-        case GET_ALL_EVENTS:
-            return Object.assign({}, state, { events: action.events })
+        case GET_MONTH_EVENTS:
+            return Object.assign({}, state, { eventsForDay: action.eventsForDay })
         case GET_SINGLE_EVENT:
         case POST_EVENT:
             return Object.assign({}, state, { events: [...state.events, action.events] });
