@@ -67,7 +67,6 @@ export default class ModalUpdateDelete extends React.Component {
             <button onClick={this.handleDelete}>Delete Event</button>
             <button onClick={this.openUpdateModal}>Update Event</button>
             <Modal
-            style={modal}
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.closeAndSaveModal}
             onRequestClose={this.closeUpdateModal}

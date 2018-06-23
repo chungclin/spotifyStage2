@@ -10,9 +10,28 @@ app.use(bodyParser.json())
 
 app.use('/api', require('./api'))
 
-app.use(express.static(path.join(__dirname, '..', 'public')))
 
-app.get('/', (req, res, next) => res.send('got to the index'))
+app.use(express.static(path.join(__dirname, '../public')));
+
+
+app.use('/api', require('./api')); // include our routes!
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+}); // Send index.html for any other requests
+
+
+app.get('/', function (req, res){
+  res.send('I AM HERE')
+})
+
+// // app.get('*', (req, res) => {
+// //     res.sendFile(path.join(__dirname, '..', 'public'));
+// //   })
+
+// app.use(express.static(path.join(__dirname, '..', 'public')))
+
+// app.get('/', (req, res, next) => res.send('got to the index'))
 
 const { db } = require('./models')
 db.sync()

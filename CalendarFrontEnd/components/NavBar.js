@@ -27,38 +27,40 @@ class NavBar extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div>
                 <div>
-                <ul>
                 {
                 this.props.months.map(month => {
                     return (
                         <div key={month.id}>
-                            <li style={nav}>
+                            <div style={nav} onClick={()=> this.props.fetchMonthFromServer(month.id)}>
                             <Link to={`/months/${month.id}`}>{month.month}</Link>
-                            </li>
+                            </div>
                         </div>
                     )
                 })
                 }
-                </ul>
                 </div>
             </div>
         )
     }
 }
 
-
 //Container
 const mapState = state => {
     return {
-        months: state.months    }
+        months: state.months,
+        month: state.month
+        }
 }
 
 const mapDispatch = dispatch => {
     return {
         fetchMonthsFromServer: function() {
             return dispatch(fetchMonthsThunk())
+        },
+        fetchMonthFromServer: function(monthId) {
+            return dispatch(fetchMonthThunk(monthId))
         }
     }
 }

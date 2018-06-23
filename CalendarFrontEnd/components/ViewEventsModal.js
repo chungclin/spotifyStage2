@@ -5,6 +5,15 @@ import Modal from 'react-modal'
 import ModalUpdateDelete from './ModalUpdateEvent';
 
 
+const modal = {
+    display: "flex",
+    border: "1px solid gray",
+    padding: "20px",
+    width: "10%",
+    height: "100px"
+}
+
+
 export default class ViewEventsModal extends React.Component {
     constructor(props){
         super(props)

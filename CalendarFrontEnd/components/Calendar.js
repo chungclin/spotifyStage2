@@ -27,7 +27,6 @@ const months = [
 ]
 
 
-
 class Calendar extends React.Component {
     constructor(props){
         super(props)
@@ -40,14 +39,13 @@ class Calendar extends React.Component {
     }
 
     render () {
-        console.log(this.props.match.params.monthid-1, 'monthid')
         const { month } = this.props
         const sortedMonth = month.sort((a, b) => {
             return (a.dayOfMonth - b.dayOfMonth)
         })
         return (
             <div>
-            <b>{months[Number(this.props.match.params.monthid) - 1]}</b>
+            <b>{months[Number(this.props.match.params.monthid) - 1]} 2018</b>
             <div style={container}>
             {
                 sortedMonth.map(day => {

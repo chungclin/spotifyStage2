@@ -59,7 +59,6 @@ class SingleDay extends React.Component {
                 endTime: this.state.endTime,
                 dayId: this.props.dayId
             }
-            console.log('new event', newEvent)
             this.props.postEventToServer(newEvent, this.props.month, this.props.dayId)
             this.setState({modalIsOpen: false});
         }

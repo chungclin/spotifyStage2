@@ -8,7 +8,7 @@ const initialState = {
     months: [],
     month: [],
     selectedDay: {},
-    eventsForDay: []
+    events: []
 }
 
 //Action Types
@@ -109,6 +109,8 @@ export function putEventThunk(event, monthId, dayId, eventId) {
         .then(res => res.data)
         .then(eventPosted => {
             dispatch(updateEvent(eventPosted))
+            dispatch(fetchMonthThunk(monthId));
+            dispatch(fetchDayEventsThunk(monthId, dayId))
             history.push(`/calendar/${monthId}`);
         })
     }
@@ -117,12 +119,14 @@ export function putEventThunk(event, monthId, dayId, eventId) {
 export function postEventThunk(event, monthId, dayId) {
     return function(dispatch) {
         return axios.post(`/api/months/${monthId}/day/${dayId}/events`, event)
-        .then(res => res.data)
+        .then(res => res.data.event)
         .then(eventAdded => {
             dispatch(addEvent(eventAdded))
-            dispatch(getMonthThunk(monthId));
+            dispatch(fetchMonthThunk(monthId));
+            dispatch(fetchDayEventsThunk(monthId, dayId))
             history.push(`/calendar/${monthId}`);
         })
+        .then(()=> console.log('dispatched!'))
 
     }
 }
@@ -133,6 +137,7 @@ export function deleteEventThunk(monthId, dayId, eventId) {
         .then(res => res.data)
         .then(() => {
         dispatch(getMonthThunk(monthId));
+        dispatch(fetchDayEventsThunk(monthId, dayId))
         history.push(`/calendar/${monthId}`);
         })
         .catch(err => console.error(err));
