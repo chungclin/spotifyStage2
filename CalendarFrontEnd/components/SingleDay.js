@@ -84,7 +84,6 @@ class SingleDay extends React.Component {
                     onRequestClose={this.closeAddModal}
                     >
                     <h2 ref={subtitle => this.subtitle = subtitle}>Add Event</h2>
-                    <button onClick={this.closeModal}>close</button>
                     <form onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Add an Event</legend>
@@ -113,6 +112,8 @@ class SingleDay extends React.Component {
                                 </fieldset>
                                 <button type="submit" value="submit">Submit Event</button>
                                 </form>
+                                <button onClick={this.closeAddModal}>close</button>
+
                             </Modal>
                             </div>
                             </div>

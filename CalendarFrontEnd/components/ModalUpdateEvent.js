@@ -72,7 +72,6 @@ export default class ModalUpdateDelete extends React.Component {
             onRequestClose={this.closeUpdateModal}
             >
             <h2 ref={subtitle => this.subtitle = subtitle}>Update Event</h2>
-            <button onClick={this.closeUpdateModal}>close</button>
             <form onSubmit={this.handleUpdate}>
                 <fieldset>
                     <legend>Update this Event</legend>
@@ -101,6 +100,7 @@ export default class ModalUpdateDelete extends React.Component {
                         </fieldset>
                         <button type="submit" value="submit">Submit Event</button>
                         </form>
+                        <button onClick={this.closeUpdateModal}>close</button>
                     </Modal>
                     </div>
     )

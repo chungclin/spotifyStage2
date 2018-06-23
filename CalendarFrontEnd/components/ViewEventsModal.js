@@ -42,8 +42,9 @@ export default class ViewEventsModal extends React.Component {
             onRequestClose={this.closeUpdateModal}
             >
             <h2 ref={subtitle => this.subtitle = subtitle}>Events</h2>
-            <button onClick={this.closeUpdateModal}>close</button>
-            {
+                {!this.props.events.length ? 
+                'There are no events to display on this day'
+                :
                 this.props.events.map(event => {
                     return (
                         <div key={event.id}>
@@ -68,7 +69,9 @@ export default class ViewEventsModal extends React.Component {
                         </div>
                     )
                 })
-            }
+                }
+                <br />
+                <button onClick={this.closeUpdateModal}>close</button>
                     </Modal>
                     </div>
     )
