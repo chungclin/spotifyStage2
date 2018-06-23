@@ -10,7 +10,7 @@ const calendarDay = {
     display: "flex",
     border: "1px solid gray",
     padding: "20px",
-    width: "calc(100%/7)",
+    width: "10%",
     height: "100px"
 }
 

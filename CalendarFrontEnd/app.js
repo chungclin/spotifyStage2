@@ -6,7 +6,7 @@ import { NavBar, Calendar, Home, AddEvent } from './components'
 
 const App = () => {
     return (
-        <div className="container">
+        <div>
         <NavBar />
         <Routes />
         </div>

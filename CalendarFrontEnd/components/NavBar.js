@@ -4,12 +4,20 @@ import { Link } from 'react-router-dom'
 
 import { fetchMonthsThunk, fetchMonthThunk } from '../store'
 
+
+const nav = {
+    "display": "inline",
+    "width": "100%",
+    "flexWrap": "wrap"
+}
+
+
 class NavBar extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            months: [],
-            selectedMonth: {}
+            months: []
+        
         }
     }
 
@@ -26,7 +34,7 @@ class NavBar extends React.Component {
                 this.props.months.map(month => {
                     return (
                         <div key={month.id}>
-                            <li>
+                            <li style={nav}>
                             <Link to={`/months/${month.id}`}>{month.month}</Link>
                             </li>
                         </div>
@@ -41,23 +49,16 @@ class NavBar extends React.Component {
 }
 
 
-
-
 //Container
 const mapState = state => {
     return {
-        months: state.months,
-        month: state.selectedMonth
-    }
+        months: state.months    }
 }
 
 const mapDispatch = dispatch => {
     return {
         fetchMonthsFromServer: function() {
             return dispatch(fetchMonthsThunk())
-        },
-        fetchMonthsFromServer: function() {
-            return dispatch(fetchMonthThunk)
         }
     }
 }
