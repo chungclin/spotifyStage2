@@ -133,6 +133,7 @@ export function deleteEventThunk(monthId, dayId, eventId) {
         .then(res => res.data)
         .then(() => {
         dispatch(getMonthThunk(monthId));
+        history.push(`/calendar/${monthId}`);
         })
         .catch(err => console.error(err));
     }

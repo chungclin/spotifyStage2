@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Modal from 'react-modal'
 import { postEventThunk, fetchDayEventsThunk, putEventThunk, deleteEventThunk } from '../store'
-import ModalUpdateDelete from './ModalUpdateEvent';
+import ViewEventsModal from './ViewEventsModal'
 
 const calendarDay = {
     display: "flex",
@@ -72,31 +72,11 @@ class SingleDay extends React.Component {
                 <br />
                 {dayOfWeek}
                 <br />
-                {
-                this.state.events.map(event => {
-                    return (
-                        <div key={event.id}>
-                        <div>
-                        Name: <Link to={`/months/${this.props.month}/day/${dayId}/event/${event.id}`}>{event.name}</Link>
-                        <br />
-                        Description: {event.description}
-                        <br />
-                        Start Time: {event.startTime}
-                        <br />
-                        End Time: {event.endTime}
-                        </div>
-                        <div>
-                        <ModalUpdateDelete putEvent={this.props.putEventToServer} 
-                            month={this.props.month} 
-                            eventId={event.id} 
-                            dayId={this.props.dayId}
-                            deleteEvent={this.props.deleteEventToServer}
-                            />
-                        </div>
-                        </div>
-                    )
-                })
-            }
+                <ViewEventsModal events={this.state.events}
+                 dayId={dayId}
+                 putEvent={this.props.putEventToServer}
+                 deleteEvent={this.props.deleteEventToServer}
+                 />
             <div>
             <button onClick={this.openAddModal}>Add Event</button>
                 <Modal

@@ -5,6 +5,14 @@ import Modal from 'react-modal';
 import { putEventThunk } from '../store'
 
 
+const modal = {
+    display: "flex",
+    border: "1px solid gray",
+    padding: "20px",
+    width: "10%",
+    height: "100px"
+}
+
 export default class ModalUpdateDelete extends React.Component {
     constructor(props){
         super(props)
@@ -50,6 +58,7 @@ export default class ModalUpdateDelete extends React.Component {
     handleDelete(evt){
         evt.preventDefault()
         this.props.deleteEvent(this.props.month, this.props.dayId, this.props.eventId)
+        this.setState({modalIsOpen: false});
     }
 
     render(){
@@ -58,6 +67,7 @@ export default class ModalUpdateDelete extends React.Component {
             <button onClick={this.handleDelete}>Delete Event</button>
             <button onClick={this.openUpdateModal}>Update Event</button>
             <Modal
+            style={modal}
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.closeAndSaveModal}
             onRequestClose={this.closeUpdateModal}
