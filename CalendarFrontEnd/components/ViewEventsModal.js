@@ -43,7 +43,7 @@ export default class ViewEventsModal extends React.Component {
             >
             <h2 ref={subtitle => this.subtitle = subtitle}>Events</h2>
                 {!this.props.events.length ? 
-                'There are no events to display on this day'
+                'No events'
                 :
                 this.props.events.map(event => {
                     return (

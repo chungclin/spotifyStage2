@@ -8,7 +8,8 @@ const initialState = {
     months: [],
     month: [],
     selectedDay: {},
-    events: []
+    eventsForDay: [],
+    event: {}
 }
 
 //Action Types
@@ -64,6 +65,14 @@ export function updateEvent(event) {
     return action
 }
 
+export function deleteEvent() {
+    const action = {
+        type: DELETE_EVENT,
+        event: {}
+    }
+    return action
+}
+
 //Thunk Creators
 
 export function fetchMonthsThunk() {
@@ -94,7 +103,6 @@ export function fetchDayEventsThunk(monthId, dayId) {
     return function(dispatch){
         return axios.get(`/api/months/${monthId}/day/${dayId}/events`)
         .then(res => res.data)
-        .then(data => console.log('data', data))
         .then(events => {
             const action = getMonthEvents(events)
             dispatch(action)
@@ -111,7 +119,7 @@ export function putEventThunk(event, monthId, dayId, eventId) {
             dispatch(updateEvent(eventPosted))
             dispatch(fetchMonthThunk(monthId));
             dispatch(fetchDayEventsThunk(monthId, dayId))
-            history.push(`/calendar/${monthId}`);
+            history.push(`/months/${monthId}`);
         })
     }
 }
@@ -124,7 +132,7 @@ export function postEventThunk(event, monthId, dayId) {
             dispatch(addEvent(eventAdded))
             dispatch(fetchMonthThunk(monthId));
             dispatch(fetchDayEventsThunk(monthId, dayId))
-            history.push(`/calendar/${monthId}`);
+            history.push(`/months/${monthId}`);
         })
         .then(()=> console.log('dispatched!'))
 
@@ -136,9 +144,10 @@ export function deleteEventThunk(monthId, dayId, eventId) {
         return axios.delete(`/api/months/${monthId}/day/${dayId}/events/${eventId}`)
         .then(res => res.data)
         .then(() => {
-        dispatch(getMonthThunk(monthId));
-        dispatch(fetchDayEventsThunk(monthId, dayId))
-        history.push(`/calendar/${monthId}`);
+            dispatch(deleteEvent(event))
+            dispatch(getMonthThunk(monthId));
+            dispatch(fetchDayEventsThunk(monthId, dayId))
+            history.push(`/months/${monthId}`);
         })
         .catch(err => console.error(err));
     }
@@ -153,9 +162,10 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, { month: action.month })
         case GET_MONTH_EVENTS:
             return Object.assign({}, state, { eventsForDay: action.eventsForDay })
-        case GET_SINGLE_EVENT:
         case POST_EVENT:
-            return Object.assign({}, state, { events: [...state.events, action.events] });
+            return Object.assign({}, state, { eventsForDay: [...state.eventsForDay, action.event] });
+        case DELETE_EVENT:
+            return Object.assign({}, state, { event: action.event }) 
         case PUT_EVENT:
             return Object.assign({}, state, { event: action.event });
         default:

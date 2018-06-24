@@ -6,9 +6,10 @@ import { fetchMonthsThunk, fetchMonthThunk } from '../store'
 
 
 const nav = {
-    "display": "inline",
-    "width": "100%",
-    "flexWrap": "wrap"
+    display: "flex",
+    padding: "20px",
+    width: "11%",
+    height: "100px"
 }
 
 
@@ -28,13 +29,16 @@ class NavBar extends React.Component {
     render() {
         return (
             <div>
-                <div>
+                <div style={nav}>
                 {
                 this.props.months.map(month => {
                     return (
-                        <div key={month.id}>
-                            <div style={nav} onClick={()=> this.props.fetchMonthFromServer(month.id)}>
-                            <Link to={`/months/${month.id}`}>{month.month}</Link>
+                        <div>
+                            <div 
+                            key={month.id} 
+                            style={nav}
+                            onClick={()=> this.props.fetchMonthFromServer(month.id)}>
+                                <Link to={`/months/${month.id}`}>{month.month}</Link>
                             </div>
                         </div>
                     )

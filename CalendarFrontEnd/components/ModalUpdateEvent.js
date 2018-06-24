@@ -81,6 +81,7 @@ export default class ModalUpdateDelete extends React.Component {
                         onChange={this.handleChange}
                         name="name"
                         type="text"
+                        required
                         />
                         <input
                         className="form-control"
@@ -88,6 +89,7 @@ export default class ModalUpdateDelete extends React.Component {
                         placeholder="Event Description"
                         type="text"
                         onChange={this.handleChange}
+                        required
                         />
                             <label htmlFor="start-time">Start Time</label>
                             <input type="time" id="start-time" name="startTime" 
@@ -98,7 +100,7 @@ export default class ModalUpdateDelete extends React.Component {
                                 onChange={this.handleChange}
                                     required />
                         </fieldset>
-                        <button type="submit" value="submit">Submit Event</button>
+                        <button type="submit" value="submit">Update</button>
                         </form>
                         <button onClick={this.closeUpdateModal}>close</button>
                     </Modal>

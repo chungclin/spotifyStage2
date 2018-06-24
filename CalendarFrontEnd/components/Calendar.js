@@ -26,6 +26,16 @@ const months = [
     'December'
 ]
 
+const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+]
+
 
 class Calendar extends React.Component {
     constructor(props){
@@ -44,10 +54,10 @@ class Calendar extends React.Component {
             return (a.dayOfMonth - b.dayOfMonth)
         })
         return (
-            <div>
-            <b>{months[Number(this.props.match.params.monthid) - 1]} 2018</b>
             <div style={container}>
-            {
+            <b>{months[Number(this.props.match.params.monthid) - 1]} 2018</b>
+            <div style={container}>         
+                {
                 sortedMonth.map(day => {
                     return (
                         <SingleDay 
@@ -56,7 +66,6 @@ class Calendar extends React.Component {
                         dayId={day.id} 
                         monthAndDay={day.monthAndDay} 
                         dayOfWeek={day.dayOfWeek}/>
-                
                     )
                 })          
             }
