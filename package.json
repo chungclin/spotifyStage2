@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
     "start-dev": "nodemon --watch ./CalendarBackend CalendarBackEnd & webpack --watch",
     "seed": "node script/seed.js"
   },
@@ -25,6 +26,7 @@
     "babel-loader": "^7.1.4",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
+    "create-react-app": "^1.5.2",
     "express": "^4.16.3",
     "nodemon": "^1.17.5",
     "pg": "^7.4.3",
