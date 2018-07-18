@@ -23,13 +23,6 @@ export default class AddEvent extends Component {
 
     handleSubmit(evt) {
         evt.preventDefault()
-        // const newEvent = {
-        //     name: evt.target.name.value,
-        //     description: evt.target.description.value,
-        //     startTime: evt.target.startTime.value,
-        //     endTime: evt.target.endTime.value,
-        //     dayId: this.props.dayId
-        // }
         const newEvent = {
             name: this.state.name,
             description: this.state.description,

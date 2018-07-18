@@ -7,7 +7,3 @@ For rendering the calendar, a seed script file was created to seed the database 
 
 
 ****Please run 'npm run seed' to seed the database before running the application****
-<<<<<<< HEAD
-
-=======
->>>>>>> 771239bf27f9ced249fd4d48bf3574111c3dbc81

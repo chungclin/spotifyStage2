@@ -25,14 +25,6 @@ app.get('/', function (req, res){
   res.send('I AM HERE')
 })
 
-// // app.get('*', (req, res) => {
-// //     res.sendFile(path.join(__dirname, '..', 'public'));
-// //   })
-
-// app.use(express.static(path.join(__dirname, '..', 'public')))
-
-// app.get('/', (req, res, next) => res.send('got to the index'))
-
 const { db } = require('./models')
 db.sync()
     .then(() => {
